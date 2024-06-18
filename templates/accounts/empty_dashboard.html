@@ -1,0 +1,20 @@
+{% extends 'accounts/home.html' %}
+{% load static %}
+{% block title %}Empty Dashboard{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="container mt-5" style="padding-top: 2.0rem;">
+        <form method="post">
+        
+            {% csrf_token %}
+            
+            <fieldset class="form-group">
+                <h2 style="color:#575757;" style="padding-top: 2.0rem;">No data available for dashboard, add items in the Stock List</h2>
+            </fieldset>
+            
+        </form>
+
+    </div>
+</div>
+{% endblock %}

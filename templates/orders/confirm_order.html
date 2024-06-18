@@ -1,0 +1,47 @@
+{% extends 'accounts/home.html' %}
+{% load static %}
+
+
+{% block title %}FarmFresh-Confirm Order{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper text-center bg-light" style="padding-top: 2.0rem;">
+<div class="container mt-5">
+
+
+    {% if messages %}
+        <div class="row mt-3">
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <div class="col-md-10 col-12 mx-auto alert alert-danger">
+                       <h1>{{ message }}</h1> 
+                    </div>
+                {% else %}
+                    <div class="col-md-10 col-12 mx-auto alert alert-success">
+                       <h1>{{ message }}</h1> 
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div>
+
+        </div>
+            <h3>
+                A confirmation email with an invoice attachment has been sent to you. Check your mail inbox or spam folder.
+            </h3>
+            <p>
+                {{note}}
+            </p>
+        <div>
+            <a href="{% url 'products' %}" class="btn btn-primary">{{ instruction }}</a>
+        </div>
+
+    </div>
+
+</div>
+</div>
+
+{% endblock %}

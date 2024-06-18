@@ -1,0 +1,61 @@
+{% extends "accounts/home.html" %}
+{% load static %}
+{% block title %}Admin Profile Page{% endblock title %}
+{% block content %}
+  
+<div class="content-wrapper">
+
+    <div class="container mt-5">
+
+        {% if messages %}
+    <div class="row mt-3">
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <div class="col-md-10 col-12 mx-auto alert alert-danger">
+                    {{ message }}
+                </div>
+            {% else %}
+                <div class="col-md-10 col-12 mx-auto alert alert-success">
+                    {{ message }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <h1 class="text-center mb-4 mt-5" style="padding-top: 2.5rem;">Registered Users</h1>
+    
+    <div class="card p-3 mx-auto" style="max-width: 700px;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Profile Picture</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">View</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td><img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="rounded-circle" style="width: 50px; height: 50px;"></td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td><a href="{% url 'view_user' user.id %}">View Profile</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</div>
+</div>
+</div>
+
+<br>
+<br>
+<br>
+{% endblock content %}

@@ -1,0 +1,49 @@
+<!-- templates/email/notification_email.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FarmFresh Notification</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Add your custom styles here */
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .header {
+      background-color: #28a745;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+    }
+    .content {
+      padding: 20px;
+    }
+    .footer {
+      background-color: #f8f9fa;
+      padding: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>FarmFresh</h1>
+    </div>
+    <div class="content">
+      <h2>Notification</h2>
+      <p>Dear {{ subscriber.email }},</p>
+      <p>This is to notify you of the latest updates and specials from FarmFresh.</p>
+      <p>Stay tuned for fresh produce and exciting offers!</p>
+      <p>Thank you for being a valued member of our community.</p>
+    </div>
+    <div class="footer">
+      <p>FarmFresh - Bringing Freshness to Your Doorstep</p>
+    </div>
+  </div>
+</body>
+</html>

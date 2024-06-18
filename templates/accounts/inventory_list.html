@@ -1,0 +1,133 @@
+<!-- inventory list -->
+{% extends 'accounts/home.html' %}
+{% load crispy_forms_tags %} 
+{% load static %}
+
+{% block title %}FarmFresh-Inventory{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4" style="padding-top: 2.0rem;">Inventory List</h1>
+
+        <div class="d-flex justify-content-end">
+            <a href="{% url 'create_inventory' %}" class="btn btn-success btn-sm mb-5 custom-btn">New Inventory +</a>
+        </div>
+        
+        
+
+        {% if messages %}
+        <div class="row mt-3">
+            {% for message in messages %}
+            {% if message.tags == 'error' %}
+            <div class="col-md-10 col-12 mx-auto alert alert-danger">
+                {{ message }}
+            </div>
+            {% else %}
+            <div class="col-md-10 col-12 mx-auto alert alert-success">
+                {{ message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Cost Per Item</th>
+                    <th scope="col">Quantity In Stock</th>
+                    <th scope="col">Quantity Sold</th>
+                    <th scope="col">Sales or Revenue</th>
+                    <th scope="col">Stock Date</th>
+                    <th scope="col">Last Sales Date</th>
+                    <th scope="col">Image</th>
+                    
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for inventory in inventories %}
+                <tr style="cursor: pointer; cursor:hand;"
+                    onclick="window.location = `{% url 'per_product' inventory.id %}`">
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ inventory.name }}</td>
+                    <td>R{{ inventory.cost_per_item }}</td>
+                    {% if inventory.quantity_in_stock <= 5 %} <td class="text-danger">{{ inventory.quantity_in_stock }}
+                        </td>
+                        {% else %}
+                        <td class="text-success">{{ inventory.quantity_in_stock }}</td>
+                        {% endif %}
+                        <td>{{ inventory.quantity_sold }}</td>
+                        <td>R{{ inventory.sales }}</td>
+                        <td>{{ inventory.stock_date }}</td>
+                        <td>{{ inventory.last_sales_date }}</td>
+                        <td style="text-align: center; vertical-align: middle;">
+                            {% if inventory.image %}
+                                <img src="{{ inventory.image.url }}" alt="{{ inventory.name }}" style="max-width: 150px; max-height: 100px;">
+                            {% else %}
+                                No Image Available
+                            {% endif %}
+                        </td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="align-middle">
+            {% if is_paginated %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if inventories.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ inventories.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ inventories.number }} of {{ inventories.paginator.num_pages }}.
+                    </span>
+
+                    {% if inventories.has_next %}
+                    <a href="?page={{ inventories.next_page_number }}">next</a>
+                    <a href="?page={{ inventories.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <a href="{% url 'generate_sales_report' %}" class="btn btn-primary btn-sm mb-5 custom-btn">Generate Sales Report</a>
+        </div>
+
+
+        <div class="animated-text bg-info">
+            <p class="text-center">Click on the item to edit/delete</p>
+        </div>
+        <br>
+        <br>
+
+
+    </div>
+</div>
+
+<script>
+    // Function to hide messages after a delay
+    function hideMessages() {
+        var messagesElements = document.querySelectorAll('.alert');
+        if (messagesElements) {
+            setTimeout(function() {
+                messagesElements.forEach(function(element) {
+                    element.style.display = 'none';
+                });
+            }, 3000);  // 5000 milliseconds (5 seconds)
+        }
+    }
+
+    // Call the function when the page loads
+    window.onload = hideMessages;
+</script>
+{% endblock %}

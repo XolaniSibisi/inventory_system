@@ -1,0 +1,95 @@
+{% extends 'accounts/home.html' %}
+{% load static %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4" style="padding-top: 2.0rem;">Your cart items</h1>
+
+        {% if messages %}
+        <div class="row mt-3">
+            {% for message in messages %}
+                {% if message.tags == 'warning' %}
+                    <div class="col-md-10 col-12 mx-auto alert alert-warning">
+                        {{ message }}
+                    </div>
+                {% else %}
+                    <div class="col-md-10 col-12 mx-auto alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <table class="table table-striped shadow table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total Amount</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td scope="row">{{item.id}}</td>
+                    <td scope="row">{{item.item}}</td>
+                    <td scope="row">R{{item.cost_per_item}}</td>
+                    <td scope="row">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                    <a href="{% url 'decrease_cart_quantity' item.id %}" class="btn btn-warning">-</a>
+                            </div>
+                            <input type="text" class="form-control" value="{{ item.quantity }}" readonly>
+                            <div class="input-group-append">
+                                    <a href="{% url 'increase_cart_quantity' item.id %}" class="btn btn-warning">+</a>
+                            </div>
+                        </div>
+                    </td>
+                    <td scope="row">R{{item.total_amount}}</td>
+                    <td scope="row"><a href="{% url 'delete_from_cart' item.id %}" class="btn btn-danger">Remove from cart</a></td>
+                </tr>
+                {% endfor %}
+                {% for price in amount %}
+                <tr>
+                    <td colspan="4" class="text-right">
+                        Total Amount Due: R{{ price.amount_due }}
+                    </td>
+                    <td scope="row" colspan="2">
+                        <a href="{% url 'delete_cart' %}" class="btn btn-danger">Clear cart</a>
+                        <a href="{% url 'order_details' %}" class="btn btn-success ml-2">Check out</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+    <script>
+        // Function to hide messages after a delay
+        function hideMessages() {
+            var messagesElements = document.querySelectorAll('.alert');
+            if (messagesElements) {
+                setTimeout(function() {
+                    messagesElements.forEach(function(element) {
+                        element.style.display = 'none';
+                    });
+                }, 3000);  // 5000 milliseconds (5 seconds)
+            }
+        }
+
+        // Call the function when the page loads
+        window.onload = hideMessages;
+    </script>
+
+
+
+{% endblock %}

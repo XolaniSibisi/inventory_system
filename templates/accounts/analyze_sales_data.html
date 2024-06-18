@@ -1,0 +1,84 @@
+{% extends 'accounts/home.html' %}
+{% load static %}
+
+{% block title %}Analyze Sales Data{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4" style="padding-top: 2.0rem;">Forecast Data</h1>
+
+        <!-- Display the forecast graph -->
+        <div id="forecast-graph" class="mt-5">
+            <!-- <canvas id="forecast-canvas" width="800" height="400"></canvas> -->
+            <canvas id="forecast-graph" width="800" height="400"></canvas>
+
+
+        </div>
+
+    </div>
+</div>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment"></script>
+
+<script>
+
+function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+    
+    var productForecasts = [
+        {% for product_forecast in product_forecasts %}
+            {
+                name: "{{ product_forecast.name }}",
+                dates: [
+                    {% for entry in product_forecast.data %}
+                        "{{ entry.Date|date:'Y-M-d H:i:s' }}"{% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                ],
+                forecasts: [
+                    {% for entry in product_forecast.data %}
+                        {{ entry.Forecast }}{% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                ]
+            }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+
+    productForecasts.forEach(function(product) {
+        product.dates = product.dates.map(function(date) {
+            return new Date(date);
+        });
+    });
+
+    var traces = productForecasts.map(function(product) {
+        return {
+            x: product.dates,
+            y: product.forecasts,
+            mode: 'lines',
+            name: product.name + ' Forecast',
+            line: {color: getRandomColor()}
+        };
+    });
+
+    var layout = {
+        title: 'Forecast Graph',
+        xaxis: {
+            title: 'Date',
+            type: 'date',
+        },
+        yaxis: {
+            title: 'Forecast',
+        }
+    };
+
+    Plotly.newPlot('forecast-graph', traces, layout);
+</script>
+{% endblock %}

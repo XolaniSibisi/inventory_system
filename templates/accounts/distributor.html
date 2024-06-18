@@ -1,0 +1,63 @@
+{% extends 'accounts/home.html' %}
+{% load crispy_forms_tags %} 
+{% load static %}
+
+{% block title %}FarmFresh-Distributor Form{% endblock %}
+
+{% block content %}
+
+
+{% if messages %}
+<div class="row mt-3">
+    {% for message in messages %}
+    {% if message.tags == 'error' %}
+    <div class="col-md-10 col-12 mx-auto alert alert-danger">
+        {{ message }}
+    </div>
+    {% else %}
+    <div class="col-md-10 col-12 mx-auto alert alert-success">
+        {{ message }}
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endif %}
+
+
+<div class="content-wrapper" style="padding-top: 2.0rem;">
+   <div class="container mt-5">
+    <div class="content-section mb-5">
+        <h1 style="padding-top: 2.0rem;">Enter Distributor Details</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset>
+                <legend class="border-bottom pb-2 mb-4 text-center" style="padding-top: 2.0rem;">Create Form</legend>
+                {{ form|crispy }}
+                <div class="form-group pt-4">
+                    <button class="btn btn-outline-success" type="submit">Submit</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+   </div>
+</div>
+
+
+<script>
+    // Function to hide messages after a delay
+    function hideMessages() {
+        var messagesElements = document.querySelectorAll('.alert');
+        if (messagesElements) {
+            setTimeout(function() {
+                messagesElements.forEach(function(element) {
+                    element.style.display = 'none';
+                });
+            }, 3000);  // 5000 milliseconds (5 seconds)
+        }
+    }
+
+    // Call the function when the page loads
+    window.onload = hideMessages;
+</script>
+
+{% endblock %}

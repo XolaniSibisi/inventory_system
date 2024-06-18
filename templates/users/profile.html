@@ -1,0 +1,157 @@
+{% extends "accounts/home.html" %}
+{% load static %}
+{% block title %}Profile Page{% endblock title %}
+{% block content %}
+  
+<div class="content-wrapper">
+
+    <div class="container mt-5">
+
+        {% if messages %}
+    <div class="row mt-3">
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <div class="col-md-10 col-12 mx-auto alert alert-danger">
+                    {{ message }}
+                </div>
+            {% else %}
+                <div class="col-md-10 col-12 mx-auto alert alert-success">
+                    {{ message }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <h1 class="text-center mb-4" style="padding-top: 2.0rem;">Your profile</h1>
+    
+        <div class="card p-3 mx-auto" style="max-width: 700px;">
+            <div class="row my-3">
+                <img class="rounded-circle account-img" src="{{ user.profile.avatar.url }}" alt="Avatar" style="cursor: pointer; max-width: 200px;">
+            </div>
+            
+            <div class="card mb-3">
+                <div class="card-body">
+                  <h5 class="card-title">{{user.username}}</h5>
+                  <p class="card-text">{{profile.bio}}</p>
+                  <p class="card-text">
+                   <strong>Full Name :</strong>  <span>{{user.first_name}} {{user.last_name}}</span>
+                  </p>
+                  <p class="card-text">
+                    <strong>Email:</strong> {{user.email}}
+                  </p>
+                  <p class="card-text">
+                    <strong>Phone number:</strong> {{profile.phone_number}}
+                  </p>
+                  <p class="card-text">
+                    <strong>Address:</strong> {{profile.address}}
+                  </p>
+                </div>
+              </div>
+
+            {% if user_form.errors %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <div id="form_errors">
+                        {% for key, value in user_form.errors.items %}
+                            <strong>{{ value }}</strong>
+                        {% endfor %}
+                    </div>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
+
+            <!-- Trigger button -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">
+    Edit Profile
+  </button>
+  
+  <!-- Edit Profile Modal -->
+  <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Profile</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="small mb-1">Change profile photo:</label>
+                  {{ profile_form.avatar }}
+                </div>
+                <br>
+                <div class="form-group">
+                  <label class="small mb-1">Username:</label>
+                  {{ user_form.username }}
+                </div>
+                <br>
+                <div class="form-group">
+                  <label class="small mb-1">Email:</label>
+                  {{ user_form.email }}
+                </div>
+                <br>
+                <div class="form-group">
+                  <label class="small mb-1">Phone number:</label>
+                  {{ profile_form.phone_number }}
+                </div>
+                <br>
+                <div class="form-group">
+                  <label class="small mb-1">Bio:</label>
+                  {{ profile_form.bio }}
+                </div>
+                <br>
+                <div class="form-group">
+                  <label class="small mb-1">Address:</label>
+                  {{ profile_form.address }}
+                </div>
+                <br>
+                <div class="form-group text-center">
+                  <a class="btn btn-success" href="{% url 'password_change' %}">Change Password</a>
+                  <hr>
+                </div>
+              </div>
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
+            <button type="reset" class="btn btn-dark btn-lg">Reset</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+        // Function to hide messages after a delay
+        function hideMessages() {
+            var messagesElements = document.querySelectorAll('.alert');
+            if (messagesElements) {
+                setTimeout(function() {
+                    messagesElements.forEach(function(element) {
+                        element.style.display = 'none';
+                    });
+                }, 3000);  // 5000 milliseconds (5 seconds)
+            }
+        }
+
+        // Call the function when the page loads
+        window.onload = hideMessages;
+    </script>
+</div>
+</div>
+</div>
+
+<br>
+<br>
+<br>
+{% endblock content %}

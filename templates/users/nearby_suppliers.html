@@ -1,0 +1,55 @@
+{% extends "accounts/home.html" %}
+{% load static %}
+{% block title %}Nearby Supplier{% endblock title %}
+
+{% block content %}
+<div class="content-wrapper" style="padding-top: 2.0rem;">
+    <div class="container mt-5">
+        <h1 class="text-center">Search Nearby Supplier</h1>
+        <br>
+        <input type="text" id="city-search" class="form-control" placeholder="Enter your town/city" autocomplete="off">
+        <ul id="suggestions" class="list-group mt-3"></ul>
+
+        <div class="text-center">
+            <span class="m-3 mt-5"><a class="btn btn-success mt-5" href="{% url 'products' %}">Back</a></span>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        $('#city-search').on('keyup', function () {
+            let query = $(this).val();
+            if (query.length > 0) {
+                console.log("Sending AJAX request with query:", query);
+                $.ajax({
+                    url: '{% url "nearby_suppliers" %}',
+                    data: { 'q': query },
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log("Received data:", data);
+                        $('#suggestions').empty();
+                        $.each(data, function (index, value) {
+                            let suggestion = '<li class="list-group-item">';
+                            suggestion += '<strong>' + value.city + '</strong> - ' + value.username;
+                            if (value.catalog_name && value.pk) {
+                                // Use the full URL for the each_catalog view
+                                let catalogUrl = '{% url "each_catalog" catalog_id=0 %}'.replace('0', value.pk);
+                                suggestion += ' - <a href="' + catalogUrl + '" class="text-primary">' + value.catalog_name + '</a>';
+                            }
+                            suggestion += '</li>';
+                            $('#suggestions').append(suggestion);
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX request failed:", status, error);
+                    }
+                });
+            } else {
+                $('#suggestions').empty();
+            }
+        });
+    });
+</script>
+{% endblock content %}

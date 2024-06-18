@@ -1,0 +1,52 @@
+<!-- bulk_email.html -->
+{% extends 'accounts/home.html' %}
+{% load static %}
+
+{% block title %}Admin - Send Bulk Emails{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4" style="padding-top: 2.0rem;">Subscribers List</h1>
+        <!-- Table to display subscribers -->
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Email</th>
+                            <th scope="col">Active</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for subscriber in subscribers %}
+                            <tr>
+                                <td>{{ subscriber.email }}</td>
+                                <td>{% if subscriber.is_active %}Yes{% else %}No{% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- End of subscribers table -->
+        
+        <!-- Section to send bulk emails -->
+        <h1 class="text-center mt-5 mb-4">Send Notifications</h1>
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <form method="post" action="{% url 'send_bulk_emails' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Send Emails</button>
+                </form>                
+            </div>
+        </div>
+        <!-- End of bulk email section -->
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+{% endblock %}

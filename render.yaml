@@ -1,0 +1,22 @@
+databases:
+  - name: inventory_systemdb
+    plan: free
+    databaseName: inventory_system
+    user: inventory_system
+
+services:
+  - type: web
+    plan: free
+    name: inventory_system
+    runtime: python
+    buildCommand: "inventory_system/build.sh"
+    startCommand: "gunicorn inventory_system.asgi:application -k uvicorn.workers.UvicornWorker -b 0.0.0.0:$PORT"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: inventory_systemdb
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4

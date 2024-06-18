@@ -1,0 +1,40 @@
+{% extends 'accounts/home.html' %}
+{% load crispy_forms_tags %} 
+{% load static %}
+
+{% block title %}FarmFresh - Distributor List{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4" style="padding-top: 2.0rem;">Food Distributors</h1>
+        
+        {% if distributors %}
+            <div class="row">
+                {% for distributor in distributors %}
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h2 class="card-title">{{ distributor.name }}</h2>
+                            <p class="card-text"><strong>Contact Information:</strong> {{ distributor.contact }}</p>
+                            <p class="card-text"><strong>Email:</strong> <a href="mailto:{{ distributor.email }}">{{ distributor.email }}</a></p>
+                            <p class="card-text"><strong>Service Area:</strong> {{ distributor.area }}</p>
+                            <p class="card-text"><strong>Delivery Schedule:</strong> {{ distributor.delivery_schedule }}</p>
+                            <p class="card-text"><strong>Types of Food:</strong> {{ distributor.types_of_food }}</p>
+                            <p class="card-text"><strong>Delivery Vehicles:</strong> {{ distributor.delivery_vehicles }}</p>
+                            <p class="card-text"><strong>Delivery Process:</strong> {{ distributor.delivery_process }}</p>
+                            <p class="card-text"><strong>Minimum Order Requirements (Weight):</strong> {{ distributor.minimum_order_requirements }}</p>
+                            <p class="card-text"><strong>Delivery Fees:</strong> {{ distributor.delivery_fees }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center">No distributor list available.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "users/base.html" %}
+{% load static %}
+{% block title %}Logout{% endblock title %}
+{% block content %}
+
+<style>
+    body {
+        background-image: url('{% static 'images/vegetables-from-basket-wooden-table.jpg' %}');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .content-wrapper {
+        flex-grow: 1;
+    }
+</style>
+   
+    <div class="content-wrapper">
+
+        {% if messages %}
+        <div class="row mt-3">
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <div class="col-md-10 col-12 mx-auto alert alert-danger">
+                        {{ message }}
+                    </div>
+                {% else %}
+                    <div class="col-md-10 col-12 mx-auto alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="container mt-5 d-flex justify-content-center align-items-center">
+            <div class="card p-4" style="max-width: 400px; background-color: rgba(255, 255, 255, 0.8); /* Adjust opacity here */">
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-4">You have been logged out</h5>
+                    <p class="card-text">
+                        Thanks for your time. If you have any comments or suggestions, feel free to contact us on our social media pages.
+                    </p>
+                    <hr>
+                    <form method="post" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-block">Sign in again</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Function to hide messages after a delay
+            function hideMessages() {
+                var messagesElements = document.querySelectorAll('.alert');
+                if (messagesElements) {
+                    setTimeout(function() {
+                        messagesElements.forEach(function(element) {
+                            element.style.display = 'none';
+                        });
+                    }, 3000);  // 5000 milliseconds (5 seconds)
+                }
+            }
+    
+            // Call the function when the page loads
+            window.onload = hideMessages;
+        </script>
+    </div>
+{% endblock content %}

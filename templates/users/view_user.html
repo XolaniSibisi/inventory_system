@@ -1,0 +1,36 @@
+{% extends "accounts/home.html" %}
+{% load static %}
+{% block title %}View User Profile{% endblock title %}
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="container mt-5">
+    <h1 class="text-center mb-4" style="padding-top: 2.0rem;">User Profile</h1>
+        <div class="card p-3 mx-auto" style="width: 700px;">
+            <div class="row my-3">
+                <img class="rounded-circle account-img" src="{{ user.profile.avatar.url }}" alt="Avatar" style="cursor: pointer; max-width: 200px;">
+            </div>
+            
+            <div class="card mb-3">
+                <div class="card-body">
+                  <h5 class="card-title">{{user.username}}</h5>
+                  <p class="card-text">{{profile.bio}}</p>
+                  <p class="card-text">
+                   <strong>Full Name :</strong>  <span>{{user.first_name}} {{user.last_name}}</span>
+                  </p>
+                  <p class="card-text">
+                    <strong>Email:</strong> {{user.email}}
+                  </p>
+                  <p class="card-text">
+                    <strong>Phone number:</strong> {{profile.phone_number}}
+                  </p>
+                  <p class="card-text">
+                    <strong>Address:</strong> {{profile.address}}
+                  </p>
+                </div>
+              </div>
+              <button class="btn btn-primary" onclick="window.history.back()">Back</button>
+        </div>
+    </div>
+</div>
+{% endblock content %}

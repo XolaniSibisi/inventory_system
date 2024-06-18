@@ -1,0 +1,29 @@
+{% extends 'accounts/home.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}FarmFresh - Write a Review{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="container mt-5">
+
+        <h1 class="text-center mb-4" style="padding-top: 2.0rem;">Write a Review</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="form-group pt-4">
+                <button class="btn btn-outline-success" type="submit">Submit Review</button>
+            </div>
+        </form>
+
+        <div class="pt-4">
+            <a href="{% url 'each_product' inventory.pk %}" class="btn btn-outline-primary">Back</a>
+         </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

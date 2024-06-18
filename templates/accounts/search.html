@@ -1,0 +1,53 @@
+{% extends 'accounts/home.html' %}
+{% load static %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="container mt-5">
+
+        {% if searched %}
+            <h1 class="mb-4" style="padding-top: 2.0rem;">Search Results For: {{ searched }}</h1>
+
+            {% if inventories %}
+                <ul class="list-group">
+                    {% for inventory in inventories %}
+                        {% if searched|lower in inventory.name|lower %}
+                            <li class="list-group-item">
+                                <div>
+                                    <img src="{{ inventory.image.url }}" alt="{{ inventory.name }}" style="max-width: 100px; max-height: 100px;">
+                                    <h4>{{ inventory.name }}</h4>
+                                    <p>Cost per item: R{{ inventory.cost_per_item }}</p>
+                                    <p>Quantity in stock: {{ inventory.quantity_in_stock }}</p>
+                                    <br>
+                                    <p><a href="{% url 'products' %}" class="btn btn-success btn-lg mb-5 custom-btn">View More Products</a></p>
+                                </div>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+
+                {% if inventories|length == 0 %}
+                    <div class="alert alert-warning" role="alert">
+                        <h1>No results found for "{{ searched }}"</h1>
+                    </div>
+                {% endif %}
+
+            {% else %}
+                <div class="alert alert-warning" role="alert">
+                    <h1>No results found for "{{ searched }}"</h1>
+                </div>
+            {% endif %}
+
+        {% else %}
+            <div class="alert alert-warning" role="alert">
+                <h1>Hey! You Forgot To Search For A Product</h1>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

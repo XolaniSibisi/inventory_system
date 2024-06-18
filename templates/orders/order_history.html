@@ -1,0 +1,110 @@
+{% extends 'accounts/home.html' %}
+{% load static %}
+
+
+{% block title %}Order history{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    
+    <div class="container  mt-5">
+        <h1 class="text-center mb-4" style="padding-top: 2.0rem;">Order History</h1>
+
+        {% if messages %}
+        <div class="row mt-3">
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <div class="col-md-10 col-12 mx-auto alert alert-danger">
+                        {{ message }}
+                    </div>
+                {% else %}
+                    <div class="col-md-10 col-12 mx-auto alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <h2>Previous orders submitted by {{user}}</h2>
+        <table class="table shadow table-striped table-bordered table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Order number</th>
+                <th scope="col">order ID</th>
+                <th scope="col">Order date</th>
+                <th scope="col">Items ordered</th>
+                <th scope="col">Total order quantity</th>
+                <th scope="col">Payment amount</th>
+                <th scope="col">Order status</th>
+                <th scope="col">Payment method</th>
+                <th scope="col">Payment status</th>
+                <th scope="col">Return order</th>
+                <th scope="col">Proof of payment</th>
+            </tr>
+            </thead>
+        
+            <tbody>
+            {% for order in orders %}
+            <tr>
+                <td scope="row">{{order.id}}</td>
+                <td scope="row">{{order.order_id}}</td>
+                <td scope="row">{{ order.order_date}}</td>
+                <td scope="row">{{ order.product }}</td>
+                <td scope="row">{{ order.quantity_ordered }} units</td>
+                <th scope="row">R{{order.amount_spent}}</th>
+                <td scope="row">{{order.customer_order_status}}</td>
+                <td scope="row">{{order.payment_method}}</td>
+                <td scope="row">{{order.payment_status}}</td>
+                <td scope="row">
+                    {% if order.customer_order_status == 'Order canceled' or order.id != orders.last.id %}
+                    <a href="{% url 'return_order' order.id %}" class="btn btn-danger btn-sm mb-2 disabled" role="button" aria-disabled="true">Return order</a>
+                    {% else %}
+                    <a href="{% url 'return_order' order.id %}" class="btn btn-danger btn-sm mb-2" role="button">Return order</a>
+                    {% endif %}
+                </td>
+                <td scope="row">
+                    {% if order.customer_order_status == 'Order canceled' %}
+                        <span>Payment proof not required</span>
+                    {% else %}
+                        {% if order.payment_status == 'Pending' %}
+                            <a href="{% url 'upload_proof_payment' order.id %}" class="btn btn-primary btn-sm mb-2">Upload proof of payment</a>
+
+                        {% else %}
+                            <span class="">Uploaded</span>
+                        {% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        
+        </table>
+    
+    </div>
+
+    <script>
+        // Function to hide messages after a delay
+        function hideMessages() {
+            var messagesElements = document.querySelectorAll('.alert');
+            if (messagesElements) {
+                setTimeout(function() {
+                    messagesElements.forEach(function(element) {
+                        element.style.display = 'none';
+                    });
+                }, 3000);  // 5000 milliseconds (5 seconds)
+            }
+        }
+
+        // Call the function when the page loads
+        window.onload = hideMessages;
+    </script>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock %}

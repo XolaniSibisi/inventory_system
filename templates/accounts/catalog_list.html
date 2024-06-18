@@ -1,0 +1,39 @@
+{% extends 'accounts/home.html' %}
+{% load static %}
+
+{% block title %}FarmFresh Catalog{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="container mt-5">
+        <div class="content-section">
+            <div class="row justify-content-center">
+
+                <div class="col-md-4">
+                    <h1 class="text-center mb-4" style="padding-top: 2.0rem;">Catalog List</h1>
+                
+                    {% for catalog in catalogs %}
+                    <div class="card mb-3 text-center" style="padding-bottom: 0.5rem;">
+                        <div class="card-body" style="height: 10%;">
+                            <h3 class="card-title" style="font-size: 1.5rem;">{{ catalog.name }}</h3>
+                            <h5 class="card-subtitle mb-2 text-muted" style="font-size: 1.2rem;">{{ catalog.supplier }}</h5>
+                            <p class="card-text" style="font-size: 1.1rem; margin-bottom: 0.5rem;">{{ catalog.description }}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-center">No catalogs available.</p>
+                    {% endfor %}
+
+                    <div class="text-center">
+                        <a href="{% url 'catalog_create' %}" class="btn btn-success btn-m">Create New Catalog</a>
+                        <a href="{% url 'upload_catalog' %}" class="btn btn-success btn-m">Upload New Catalog</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

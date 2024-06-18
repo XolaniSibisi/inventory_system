@@ -1,0 +1,71 @@
+{% extends 'accounts/home.html' %}
+{% load static %}
+
+{% block title %}Sales Data Analysis Results{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4" style="padding-top: 2.0rem;">Sales Data Analysis Results</h1>
+
+        {% if forecast_data_12_months %}
+            <!-- Plot the forecast graph -->
+            <div id="forecast-graph" class="mt-5">
+                <h3>Forecast Graph</h3>
+                <script>
+                    // JavaScript code for plotting the forecast graph using Chart.js
+                    // Include Chart.js in your HTML file
+
+                    // Extract data from Django template to JavaScript
+                    var forecastData = {{ forecast_data_12_months|safe }};
+
+                    // Prepare data for Chart.js
+                    var labels = forecastData.map(entry => entry.Date);
+                    var data = forecastData.map(entry => entry.Forecast);
+
+                    // Plot the graph
+                    var ctx = document.getElementById('forecast-graph').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Forecast',
+                                data: data,
+                                borderColor: 'orange',
+                                borderWidth: 2,
+                                fill: false
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                x: {
+                                    type: 'time',
+                                    time: {
+                                        unit: 'month',
+                                        displayFormats: {
+                                            month: 'MMM YYYY'
+                                        }
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Date'
+                                    }
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'Forecast'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                </script>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

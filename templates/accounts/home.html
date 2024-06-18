@@ -1,0 +1,808 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/ico" href="{% static 'images/favicon.ico' %}"/> 
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/aos.css' %}">
+
+
+    <title>{% block title %}FarmFresh{% endblock %}</title>
+</head>
+<style>
+    body {
+        /* overflow: hidden; */
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        opacity: 0.99;
+        background-color: rgba(244, 246, 248, 0.934);
+        margin-top: 68px; /* Add a margin to the body to avoid content being hidden behind the fixed navbar */
+    }
+
+    .dark-image {
+        filter: brightness(0.5);
+    }
+
+    .nav-link {
+    font-size: 18px;
+    }
+
+    .custom-border {
+        border: 1px solid black;
+        padding: 10px;
+        margin: 10px;
+    }
+
+    .custom-text-size {
+        font-size: 18px;
+    }
+
+    .content-wrapper {
+        flex: 1;
+    }
+
+    .carousel-item {
+        /* height: 100vh; */
+        min-height: 300px;
+        background: no-repeat scroll center scroll;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+
+    .carousel-item::before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.5);
+        /* opacity: 0.7; */
+    }
+
+    .carousel-caption {
+        bottom: 150px; /* Align at the bottom */
+        left: 10px; /* Align at the left */
+        transform: translateY(50%);
+        text-align: left; /* Align text to the left */
+        padding: 80px 60px; /* Add padding for better appearance */
+        max-width: 80%;
+        z-index: 1;
+    }
+
+    @media (min-width: 768px) {
+    .carousel-item {
+        height: calc(100vh - 68px); /* Subtract the height of the fixed navbar */
+    }
+}
+
+    @media (max-width: 768px) {
+        .carousel-caption {
+            bottom: 20px; /* Adjust position for smaller screens */
+            left: 50%; 
+            transform: translateX(-50%);
+            text-align: center;
+            padding: 10px; 
+            max-width: 90%; /* Limit maximum width of caption for smaller screens */
+        }
+    }
+
+    .carousel-caption h5 {
+        font-size: 50px;
+        font-weight: 500;
+    }
+
+    .slider-btn .btn {
+        background-color: #4CAF50;
+        color: #fff;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 1.2rem; 
+        border: none; 
+    }
+
+    .carousel-caption {
+        animation: fadeInUp 1s ease forwards; /* Apply animation to both caption and button */
+    }
+
+    .btn a {
+        text-decoration: none;
+    }
+
+    .custom-search-btn {
+        background-color: transparent;
+        color: white;
+        border: 2px solid white;
+        border-radius: 1;
+        margin-left: 10px;
+    }
+
+    .custom-search-btn:hover {
+        background-color: white;
+        color: dark;
+    }
+
+    .custom-logout-btn {
+        background-color: transparent;
+        color: white;
+        border: 2px solid rgb(66, 64, 64);
+        border-radius: 1;
+        margin-left: 10px;
+    }
+
+    .custom-logout-btn:hover {
+        text-decoration: underline;
+    }
+
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .custom-badge {
+        height: 20px;
+        width: 20px;
+    }
+
+    .custom-btn {
+        font-size: 20px;
+        margin-right: 10px;
+    }
+
+    .image-align {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 200px;
+        width: 200px;
+    }
+
+    .ul_li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        /* Optional: Adjust the alignment of items within the row */
+    }
+
+    .ul_li li {
+        margin-right: 10px;
+        /* Optional: Adjust the spacing between the images */
+    }
+
+    .more-about-us-section .row.no-gutters img {
+        display: block;
+        width: 100%;
+        margin: 0 -15px;
+    }
+
+    #back-to-top-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        display: none;
+        font-size: 20px;
+        border: none;
+        outline: none;
+        background-color: #00ff66;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 50%;
+        padding: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #back-to-top-btn:hover {
+        background-color: #0fb300;
+    }
+
+    .service_content_wrap .service_inner_content {
+    margin-bottom: 20px; 
+    }
+
+    .service_content_wrap .service_content_icon {
+    background-color: #2ecc71;
+    color: #fff; 
+    border-radius: 50%; 
+    padding: 20px; 
+    }
+
+    .service_content_wrap .service_content_text {
+    text-align: center; 
+    }
+
+    .service_content_wrap .service_content_title {
+    color: #333; 
+    font-size: 18px; 
+    font-weight: 700; 
+    margin-top: 10px;
+    }
+
+    .service_content_wrap .service_content_sub_title {
+    color: #777; 
+    font-size: 14px; 
+    }
+
+    .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    }
+    
+    .card {
+    min-height: 300px; /* Adjust the height as needed */
+    }
+
+
+</style>
+
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-success bg-success">
+        <div class="container-fluid py-3">
+            <a class="navbar-brand fs-1 text-white" href="#"><img src="{% static 'images/logo.jpeg' %}" alt="FarmFresh Logo"
+                    width="75" class="d-inline-block align-text-top">FarmFresh</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    
+                    <li class="nav-item">
+                        <a class="nav-link active text-white" aria-current="page" href="{% url 'home' %}">Home</a>
+                    </li>
+    
+    
+                    {% if request.user.is_authenticated %}
+                    {% if is_customer %}
+                    <li class="nav-item">
+                        <a class="nav-link active text-white" href="{% url 'products' %}">Products</a>
+                    </li>
+    
+                    <li class="nav-item">
+                        <a class="nav-link active text-white" href="{% url 'view_cart' %}">Cart
+                            <span class="badge text-bg-warning">{{ request.session.cart_count|default:0 }}</span>
+                        </a>
+                    </li>
+    
+                    <li class="nav-item">
+                        <a class="nav-link active text-white" href="{% url 'order_history' %}">Order History</a>
+                    </li>
+    
+                    <!-- Display marketing page link for customers -->
+                    <li class="nav-item">
+                        <a class="nav-link active text-white" href="{% url 'marketing' %}"
+                            class="text-white no-underline">Marketing</a>
+                    </li>
+
+                    {% endif %}
+
+                    {% if is_supplier %}
+    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active text-white" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Catalog
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'catalog_list' %}">Catalog</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'inventory_list' %}">Inventory List</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                        </ul>
+                    </li>
+    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active text-white" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Order Management
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'order_list' %}">Order List</a></li>
+                        </ul>
+                    </li>
+    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active text-white" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Analytics
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'dashboard' %}">Product Performance</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'analyze_sales_data' %}">Forecast</a></li>
+                        </ul>
+                    </li>
+    
+                    <!-- Display bulk email page link for admin -->
+                    <li class="nav-item">
+                        <a class="nav-link active text-white" href="{% url 'send_bulk_emails' %}">Notifications</a>
+                    </li>
+
+                    <!-- Display distribution form link for distributors -->
+                    <li class="nav-item">
+                        <a class="nav-link active text-white" href="{% url 'distributor_list' %}">Distributors</a>
+                    </li>
+
+                    {% endif %}
+    
+                    {% if is_distributor %}
+
+                    <!-- Display distributor's list for suppliers -->
+                    <li class="nav-item">
+                        <a class="nav-link active text-white" href="{% url 'distributor' %}">Form</a>
+                    </li>
+
+                    {% endif %}
+    
+                    <li class="nav-item">
+                        <a class="nav-link active text-white" href="{% url 'users-profile' %}">Profile</a>
+                    </li>
+                    {% endif %}
+                </ul>
+    
+                {% if request.user.is_authenticated %}
+                <div>
+                    <form class="d-flex" method="POST" action="{% url 'search' %}">
+                        {% csrf_token %}
+                        <input class="form-control me-2" type="search" placeholder="What are you looking for?"
+                            aria-label="Search" name="searched">
+                        <button class="btn custom-search-btn" type="submit">Search</button>
+                    </form>
+                </div>
+                {% endif %}
+                <br>
+    
+                <div>
+                    {% if not request.user.is_authenticated %}
+                    <form action="{% url 'login' %}" method="get" style="display: inline;">
+                        <button type="submit" class="btn custom-logout-btn">Login</button>
+                    </form>
+                    {% else %}
+                    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn custom-logout-btn">Logout</button>
+                    </form>
+                    {% endif %}
+                </div>
+    
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <section class="1">
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{% static 'images/back.jpg' %}" class="d-block w-100" alt="produce">
+                    <div class="carousel-caption d-md-block">
+                        <h5>Welcome to FarmFresh!</h5>
+                        <h6>Bringing Nature's Best to You</h6>
+
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'images/image1.jpg' %}" class="d-block w-100" alt="produce">
+                    <div class="carousel-caption d-md-block">
+                        <h5>Your Fresh Produce Marketplace</h5>
+                        <h6>Witness the journey of different produce, straight from the farm to your table</h6>
+
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'images/image4.jpg' %}" class="d-block w-100" alt="produce">
+                    <div class="carousel-caption d-md-block">
+                            <h5>See what your friendly neighborhood suppliers have to offer</h5>
+                            <h6>Explore our ever-expanding catalog of farm-fresh delights, just a click away</h6>
+                     
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+    </section>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <section class="service_setion sec_space_xxs_50" data-aos="fade-up" data-aos-duration="2000">
+        <div class="service_content_wrap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-6 col-md-4 col-xl-3">
+                        <div class="service_inner_content d-flex justify-content-center align-items-center"
+                            data-aos="fade-up" data-aos-duration="500">
+                            <div class="service_content_icon rounded-pill me-2">
+                                <i class="fas fa-shipping-fast"></i>
+                            </div>
+                            <div class="service_content_text">
+                                <div class="service_content_title">
+                                    <h6 class="text-uppercase">Free Shipping</h6>
+                                </div>
+                                <div class="service_content_sub_title">
+                                    <span>Free on orders over R500</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-xl-3">
+                        <div class="service_inner_content d-flex justify-content-center align-items-center"
+                            data-aos="fade-up" data-aos-duration="1000">
+                            <div class="service_content_icon rounded-pill me-2">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <div class="service_content_text">
+                                <div class="service_content_title">
+                                    <h6 class="text-uppercase">Security Payment</h6>
+                                </div>
+                                <div class="service_content_sub_title">
+                                    <span>100% security payment</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-xl-3">
+                        <div class="service_inner_content d-flex justify-content-center align-items-center"
+                            data-aos="fade-up" data-aos-duration="1500">
+                            <div class="service_content_icon rounded-pill me-2">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <div class="service_content_text">
+                                <div class="service_content_title">
+                                    <h6 class="text-uppercase">30 Day Return</h6>
+                                </div>
+                                <div class="service_content_sub_title">
+                                    <span>30 day money guarantee</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-xl-3">
+                        <div class="service_inner_content d-flex justify-content-center align-items-center"
+                            data-aos="fade-up" data-aos-duration="2000">
+                            <div class="service_content_icon rounded-pill me-2">
+                                <i class="fas fa-shipping-fast"></i>
+                            </div>
+                            <div class="service_content_text">
+                                <div class="service_content_title">
+                                    <h6 class="text-uppercase">24/7 Support</h6>
+                                </div>
+                                <div class="service_content_sub_title">
+                                    <span>Support every time fast</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <br>
+    <br>
+    <br>
+
+
+
+    <section class="product_section_2 sec_space_small" data-aos="fade-up" data-aos-duration="2000">
+        <div class="product_section_2_wrap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="product_gallery">
+                            <img src="{% static 'images/sale8.png' %}" alt="image_not_found">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="product_section_content about_section_content">
+                            <div class="product_sec_sub_title d-flex align-items-center pb-2">
+                                <i class="far fa-circle"></i>
+                                <i class="far fa-circle"></i>
+                                <i class="far fa-circle"></i>
+                                <span class="ps-1">FRESH FROM OUR FARM</span>
+                            </div>
+                            <div class="product_section_title text-effect py-2">
+                                <h2>Trusted Organic <font>
+                                        <span>F</span><span>o</span><span>o</span><span></span><span>d</span>
+                                    </font>
+                                    Store Conscious</h2>
+                            </div>
+                            <div class="product_section_subtitle position-relative">
+                                <p class="pb-0">Welcome to FarmFresh, your trusted source for fresh produce. At
+                                    FarmFresh, we are passionate
+                                    about providing you with the highest quality fruits, vegetables, and other
+                                    farm-fresh products.
+                                    Our commitment to excellence starts from the seed and extends all the way to your
+                                    table.</p>
+                            </div>
+                            <div class="product_section_desc">
+                                <p>What sets us apart is our dedication to sustainable and organic farming practices. We
+                                    work
+                                    closely with local farmers who share our values to bring you a wide variety of
+                                    seasonal and
+                                    delicious produce. Our goal is not only to deliver exceptional taste but also to
+                                    promote a
+                                    healthier lifestyle and a greener environment.</p>
+                            </div>
+                            <div class="product_section_desc">
+                                <p>At FarmFresh, we believe in transparency and traceability. That's why we make it a
+                                    priority to
+                                    share the stories behind the food you enjoy. Learn about the farmers, the regions,
+                                    and the
+                                    journey your food takes to reach you. We want you to feel a connection to the source
+                                    of your
+                                    nourishment.</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+    <section class="more-about-us-section sec_space_small" data-aos="fade-up" data-aos-duration="2000">
+        <div class="container">
+            <h2 class="text-center mb-5">More About Us</h2>
+            <div class="row no-gutters">
+                <div class="col-md-3">
+                    <img src="{% static 'images/close-up-picture-hand-holding-planting-seed-plant.jpg' %}" alt="Image 1" class="img-fluid">
+                </div>
+                <div class="col-md-3">
+                    <img src="{% static 'images/top-view-female-cook-cutting-fresh-green-salad-gray-surface.jpg' %}" alt="Image 2" class="img-fluid">
+                </div>
+                <div class="col-md-3">
+                    <img src="{% static 'images/close-up-box-with-vegetables-hands-mature-man.jpg' %}" alt="Image 3" class="img-fluid">
+                </div>
+                <div class="col-md-3">
+                    <img src="{% static 'images/fresh_vegetables_fruit_market_stall.jpg' %}" alt="Image 5" class="img-fluid">
+                </div>
+                
+
+            </div>
+        </div>
+    </section>
+
+
+    <br>
+    <br>
+
+    <div class="content-wrapper" data-aos="fade-up" data-aos-duration="2000">
+        <div class="container mt-5">
+            <div class="card bg-light p-4">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4 class="mb-3">Our Mission</h4>
+                        <p>We showcase our farm's bounty with our intuitive and user-friendly product. Explore a variety
+                            of fresh produce sourced directly from local farmers.</p>
+                    </div>
+    
+                    <div class="col-lg-6">
+                        <h4 class="mb-3">Inventory Management</h4>
+                        <p>We stay on top of our stock levels with real-time inventory tracking. Our system provides
+                            up-to-minute information on the quantity of each product in stock, ensuring we are never
+                            caught off guard.</p>
+                    </div>
+                </div>
+    
+                <div class="row mt-4">
+                    <div class="col-lg-6">
+                        <h4 class="mb-3">Order Management</h4>
+                        <p>We efficiently manage customer orders with our robust order tracking system. Keep tabs on the
+                            order status (pending, shipped, delivered), customer details, and order history in one
+                            centralized location.</p>
+                    </div>
+    
+                    <div class="col-lg-6">
+                        <h4 class="mb-3">Contact Us</h4>
+                        <p>If you have any questions or inquiries, feel free to reach out to us. Our dedicated support
+                            team is here to assist you.</p>
+                        <p>Email: support@freshfarm.com</p>
+                        <p>Phone: (011) 456-7890</p>
+                        
+                    </div>
+                </div>
+                <!-- Contact us by emailing -->
+                <div class="text-center mt-4">
+                    <a href="mailto:support@freshfarm.com" style="text-decoration: none; color: #333;">
+                        <div style="display: inline-block; padding: 10px; background-color: #f7f7f7; border: 1px solid #ccc; border-radius: 5px;">
+                            <i class="fas fa-envelope" style="font-size: 18px;"></i> Contact Us
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Back to Top Button -->
+    <div>
+        <button id="back-to-top-btn" class="btn btn-primary back-to-top-btn" title="Go to top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <!-- Trigger button -->
+    <div class="text-center m-3">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imagereferences">
+        Click to view image attributions
+        </button>
+    </div>
+    
+
+    <!-- Edit Profile Modal -->
+    <div class="modal fade" id="imagereferences" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Image attributions</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            <label class="small mb-1">Login background image :</label>
+                <li>The vegetables from a basket on wooden table: <a href="https://www.freepik.com/free-photo/vegetables-from-basket-wooden-table_7785613.htm#page=3&query=vegetables&position=3&from_view=keyword&track=sph&uuid=874b534f-566f-4976-8587-1032e70617ea">Image by master1305</a> on Freepik"></li>
+
+            <label class="small mb-1">Homepage images :</label>
+                <li>red green and yellow chili peppers and green chili peppers: Photo by <a href="https://unsplash.com/@enginakyurt?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">engin akyurt</a> on <a href="https://unsplash.com/photos/red-green-and-yellow-chili-peppers-and-green-chili-peppers-Y5n8mCpvlZU?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a></li>
+                <li>bunch of vegetables: Photo by <a href="https://unsplash.com/@nicotitto?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">nrd</a> on <a href="https://unsplash.com/photos/bunch-of-vegetables-D6Tu_L3chLE?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a></li>
+                <li>vegetables and fruits display: Photo by <a href="https://unsplash.com/@tombrunberg?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Tom Brunberg</a> on <a href="https://unsplash.com/photos/vegetables-and-fruits-display-D4ZtZX1UeAI?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a></li>
+                <li>Close up picture of hand holding planting the seed of the plant:<a href="https://www.freepik.com/free-photo/close-up-picture-hand-holding-planting-seed-plant_10992195.htm#query=planting%20seeds&position=1&from_view=search&track=ais&uuid=0fee9896-5288-471a-b029-cc8f2ddfa9c5">Image by jcomp</a> on Freepik</li>
+                <li>Close up of box with vegetables in hands of mature man: <a href="https://www.freepik.com/free-photo/close-up-box-with-vegetables-hands-mature-man_11600526.htm#query=agriculture%20produce&position=29&from_view=search&track=ais&uuid=6e5a7542-0783-4974-8f95-0aec1304757d">Image by gpointstudio</a> on Freepik</li>
+                <li>Top view female cook cutting fresh green salad on the gray surface: <a href="https://www.freepik.com/free-photo/top-view-female-cook-cutting-fresh-green-salad-gray-surface_16756942.htm#page=5&query=chopping%20vegetables&position=45&from_view=search&track=ais&uuid=630de469-388b-485e-8b13-534195d06f69">Image by mdjaff</a> on Freepik</li>
+                <li>Free photo fresh vegetables and fruit market stall: <a href="https://www.freepik.com/free-photo/fresh-vegetables-fruit-market-stall_4438342.htm#query=farm%20produce%20market&position=35&from_view=search&track=ais&uuid=d020978d-0484-4b37-a012-5a1d2ce8f759">Image by kstudio</a> on Freepik</li>
+                
+            <label class="small mb-1">Marketing image :</label>
+                <li>green and red fruit with green leaves: Photo by <a href="https://unsplash.com/@tangerinenewt?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Tangerine Newt</a> on <a href="https://unsplash.com/photos/green-and-red-fruit-with-green-leaves-RgT22Ixcq4Y?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a></li>
+                </div>
+        </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    <footer class="bg-dark text-white py-3">
+        <div class="container">
+
+            <div class="col-md-12 text-center">
+                <p>&copy; 2024 FarmFresh. All rights reserved.</p>
+                  </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Include other libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="{% static 'js/aos.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <script>
+        AOS.init();
+    </script>
+
+     <!-- Add JavaScript code for the fixed navbar -->
+     <script>
+        // Get the navbar
+        var navbar = document.querySelector(".navbar");
+
+        // Get the offset position of the navbar
+        var sticky = navbar.offsetTop;
+
+        // Function to add/remove the 'fixed-navbar' class
+        function toggleFixedNavbar() {
+            if (window.pageYOffset >= sticky) {
+                navbar.classList.add("fixed-navbar");
+            } else {
+                navbar.classList.remove("fixed-navbar");
+            }
+        }
+
+        // When the user scrolls, call the toggleFixedNavbar function
+        window.onscroll = function () {
+            toggleFixedNavbar();
+        };
+    </script>
+
+    <!-- Back to Top Button Script -->
+    <script>
+        // Get the button
+        var mybutton = document.getElementById("back-to-top-btn");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        };
+
+        // When the user clicks on the button, scroll to the top of the document
+        mybutton.addEventListener("click", function () {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE, and Opera
+        });
+    </script>
+
+
+</body>
+
+</html>

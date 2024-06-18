@@ -1,0 +1,221 @@
+{% extends 'accounts/home.html' %}
+{% load static %}
+
+{% block title %}FarmFresh - Invoicing{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="container mt-5 mb-5" style="padding-top: 2.0rem;">
+        <h1 class="text-center mb-4">Invoice Details</h1>
+
+        <div class="row">
+            <form class="table-bordered custom-border">
+
+                <div class="container bg">
+
+                    <br>
+
+                    <div id="printArea" class="bg">
+
+                        <table class="table outer-box inner-box mx-auto">
+                            <tbody>
+
+                                <tr>
+                                    <td class="text-center">
+                                        <p style="font-size: 3.0rem;">PURCHASE INVOICE</p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="text-center">
+                                        <span style="font-size: 2.5rem;">FarmFresh</span> <br>
+                                        <span style="font-size: 1.2rem; font-weight: bold;">DEALERS IN: Produce</span> <br>
+                                        <span style="font-weight: bold;">REGD ADDRESS:</span> 69 Kingsway Ave<br>Auckland Park GP 2092<br>
+                                        <span style="font-weight: bold;">EMAIL: farmfresh@gmail.com</span> <br><br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <td>
+                                        <table class="table outer-box mx-auto">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="inner-box text-center font-weight-bold" colspan="3"><strong>INVOICE DETAILS</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="inner-box font-weight-bold" style="width: 50%;">CUSTOMER DETAILS</td>
+                                                    <td class="inner-box font-weight-bold" style="width: 25%;">INVOICE NO</td>
+                                                    <td class="inner-box" style="width: 25%;">{{ invoice.invoice_no }}</td>
+                                                </tr>
+
+                                                <!-- Include supplier details if available -->
+                                                {% if supplier_info %}
+                                                <tr>
+                                                    <td class="inner-box font-weight-bold" style="width: 50%;">SUPPLIER DETAILS</td>
+                                                    <td class="inner-box font-weight-bold" style="width: 25%;">SUPPLIER NAME</td>
+                                                    <td class="inner-box" style="width: 25%;">{{ supplier_info.name }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="inner-box" style="width: 50%;">{{ supplier_info.address }}</td>
+                                                    <td class="inner-box font-weight-bold" style="width: 25%;">SUPPLIER EMAIL</td>
+                                                    <td class="inner-box" style="width: 25%;">{{ supplier_info.email }}</td>
+                                                </tr>
+                                                {% endif %}
+                                                <!-- End of supplier details -->
+                                                <tr>
+                                                    <td class="inner-box" style="width: 50%;">{{ invoice.billing_name }}</td>
+                                                    <td class="inner-box font-weight-bold" style="width: 25%;">DATE</td>
+                                                    <td class="inner-box" style="width: 25%;">{{ invoice.date_created }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="inner-box" style="width: 50%;" rowspan="2">{{ invoice.billing_address }}</td>
+                                                    <td class="inner-box font-weight-bold" style="width: 25%;">PAYMENT STATUS</td>
+                                                    <td class="inner-box align-middle" style="width: 25%;">
+                                                        {{ invoice.payment_status }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="inner-box font-weight-bold" style="width: 25%;">PAYMENT METHOD</td>
+                                                    <td class="inner-box align-middle" style="width: 25%;">
+                                                        {% if invoice.payment_method == '*******************' %}
+                                                        <a href="{% url 'edit_invoice' invoice.id %}">Choose payment method</a>
+                                                        {% else %}
+                                                        {{ invoice.payment_method }}
+                                                        <a href="{% url 'edit_invoice' invoice.id %}">Change</a>
+                                                        {% endif %}
+                                                   
+
+                                                    </td>
+                                                </tr>
+                                            
+                                                <tr>
+                                                    <td class="inner-box font-weight-bold">{{ invoice.billing_email }}</td>
+                                                    <td class="inner-box font-weight-bold" style="width: 25%;">DUE DATE:</td>
+                                                    <td class="inner-box align-middle" style="width: 25%;">
+                                                        {{ invoice.payment_due_date }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                        
+                                <tr>
+                                    <td>
+                                        <table class="table outer-box mx-auto">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="inner-box text-center font-weight-bold" colspan="5"></td>
+                                                </tr>
+            
+                                                <tr>
+                                                    <td class="inner-box text-center font-weight-bold" colspan="5"><strong>ORDER DETAILS</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="inner-box text-center font-weight-bold" colspan="5">ORDER ID: {{ invoice.order }}</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="inner-box text-center font-weight-bold" colspan="5">TOTAL ORDER QUANTITY: {{ orderCount.cart_count }}</td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td class="inner-box" style="width: 5%; font-weight: bold; text-align: center;">SL</td>
+                                                    <td class="inner-box" style="width: 30%; font-weight: bold; text-align: center;">ITEM</td>
+                                                    <td class="inner-box" style="width: 12%; font-weight: bold; text-align: center;">QUANTITY</td>
+                                                    <td class="inner-box" style="width: 12%; font-weight: bold; text-align: center;">COST PER ITEM</td>
+                                                    <td class="inner-box" style="width: 12%; font-weight: bold; text-align: center;">AMOUNT</td>
+                                                </tr>
+                                                {% for item in cart_items %}
+                                                <tr>
+                                                    <td class="inner-box" style="width: 12%; text-align: center;">{{ item.id }}</td>
+                                                    <td class="inner-box" style="width: 12%; text-align: center;">{{ item.item }}</td>
+                                                    <td class="inner-box" style="width: 12%; text-align: center;">{{ item.quantity }}</td>
+                                                    <td class="inner-box" style="width: 12%; text-align: center;">R{{ item.cost_per_item }}</td>
+                                                    <td class="inner-box" style="width: 12%; text-align: center;">R{{ item.total_amount }}</td>
+                                                    
+                                                </tr>
+                                                {% endfor %}
+                                                <tr>
+                                                    <td class="inner-box font-weight-bold" style="width: 12%; text-align: center;" colspan="4"><strong>TOTAL</strong></td>
+                                                    <td class="inner-box align-middle" style="width: 12%; text-align: center;"><strong>R{{ invoice.total_amount }}</strong>
+                                                       
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                        <td class="i font-weight-bold" colspan="5" style="width: 12%;"></td>
+                                                        
+                                                    </tr>
+                                                    
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                               
+                                <tr>
+                                    <td>
+                                        <table class="table outer-box inner-box mx-auto">
+                                            <tbody>
+                                                
+                                                <tr>
+                                                       <td class="inner-box" style="width: 35%; text-align: center;" ></td>
+                                                            <p>
+                                                                <span style="font-weight: bold;">BANK DETAILS <br> FarmFresh</span> <br>
+                                                                Discovery Bank <br> AC NO-54A7 6S31 4T85 0RO3 <br> IFSC CODE - ABCD 010 0110 <br> CS BRANCH <br> PH NO - 011-456-7890
+                                                            </p>
+                                                        </td> 
+                                                </tr>
+                                            </tbody>
+                                                          
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <br><br><br>
+                                <tr>
+                                    <td class="text-right">
+                                        <span style="font-weight: bold;">FOR COMPANY <br><br><br><br> Signature</span>
+                                    </td>
+                                </tr>
+            
+                                <tr>
+                                    <td class="text-center">
+                                        <!-- FINAL TEXT -->
+                                    </td>
+                                </tr>
+            
+                            </tbody>
+                        </table>
+            
+                    </div>
+            
+                </div>
+            
+            </form>
+            
+        
+         
+         <div class="text-center">
+              
+        <!-- Confirm order to generate pdf and send email to customer -->
+        <span class="m-3"><a class="btn btn-success"  href="{% url 'confirm_order' invoice.id %}">Confirm order</a></span>
+         <span class="m-3"><a class="btn btn-danger" href="{% url 'delete_invoice' invoice.id %}">Cancel order</a></span>  
+         </div>
+         
+    </div>
+    
+</div>
+
+<br>
+<br>
+<br>
+
+{% endblock %}

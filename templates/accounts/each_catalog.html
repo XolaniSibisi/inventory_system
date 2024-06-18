@@ -1,0 +1,77 @@
+{% extends 'accounts/home.html' %}
+{% load static %}
+
+{% block title %}FarmFresh - Products{% endblock %}
+
+{% block content %}
+
+
+    {% if messages %}
+        <div class="row mt-3">
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <div class="col-md-10 col-12 mx-auto alert alert-danger">
+                        {{ message }}
+                    </div>
+                {% else %}
+                    <div class="col-md-10 col-12 mx-auto alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="content-wrapper container" style="padding-top: 2.0rem;">
+        <div class="container mt-5" style="padding-top: 2.0rem;">
+
+    <h2>Catalog: {{ catalog.name }}</h2>
+    <p>Description: {{ catalog.description }}</p>
+
+    <h2>Products</h2>
+    
+        {% if catalog.inventory_set.exists %}
+        <div class="row gy-5">
+            {% for inventory in catalog.inventory_set.all %}
+            <div class="col-md-3">
+                <div class="card" style="cursor: pointer;" onclick="window.location = '{% url 'each_product' inventory.id %}'">
+                    <img src="{{ inventory.image.url }}" alt="Inventory Image" class="card-img-top" style="width: 100px; height: 90px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ inventory.name }}</h5>
+                        <p class="card-text">Each: R{{ inventory.cost_per_item }}</p>
+                        <p class="card-text">In stock: {{ inventory.quantity_in_stock }}</p>
+                        <a href="{% url 'add_to_cart' inventory.id %}" class="btn btn-success">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>No inventories available for this catalog.</p>
+        {% endif %}
+    <br>
+    <br>
+    <div class="text-center">
+        <span class="m-3"><a class="btn btn-success"  href="{% url 'nearby_suppliers' %}">Back</a></span>
+    </div>
+    <br>
+
+    <script>
+        // Function to hide messages after a delay
+        function hideMessages() {
+            var messagesElements = document.querySelectorAll('.alert');
+            if (messagesElements) {
+                setTimeout(function() {
+                    messagesElements.forEach(function(element) {
+                        element.style.display = 'none';
+                    });
+                }, 3000);  // 5000 milliseconds (5 seconds)
+            }
+        }
+
+        // Call the function when the page loads
+        window.onload = hideMessages;
+    </script>
+</div>
+</div>
+{% endblock %}

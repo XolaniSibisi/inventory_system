@@ -1,0 +1,47 @@
+{% extends 'accounts/home.html' %}
+{% load static %}
+
+{% block title %}FarmFresh - Discover Fresh Offers and Promotions{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4" style="padding-top: 2.0rem;">Discover Fresh Offers and Promotions</h1>
+    
+        <div class="row">
+            <div class="col-lg-6">
+                <img src="{% static 'images/image3.jpg' %}" alt="Fresh Produce" class="img-fluid rounded mb-4">
+            </div>
+    
+            <div class="col-lg-6">
+                <p class="lead">Welcome to FarmFresh, where freshness meets unbeatable deals! Explore our latest promotions and offers designed to elevate your shopping experience.</p>
+    
+                <ul class="list-group">
+                    <li class="list-group-item">🌟 Enjoy exclusive limited-time discounts on a curated selection of premium products.</li>
+                    <li class="list-group-item">🍓 Unlock special offers and rewards as a token of appreciation for our loyal customers.</li>
+                    <li class="list-group-item">📅 Stay tuned for upcoming events and seasonal sales that bring you the best in fresh produce.</li>
+                </ul>
+    
+                <p class="mt-3">Sign up for our newsletter to become a part of our community and receive exclusive updates and promotions directly to your inbox!</p>
+    
+                <form method="post" action="{% url 'subscription' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="emailInput" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Subscribe Now</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock %}

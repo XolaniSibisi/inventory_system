@@ -1,0 +1,25 @@
+{% extends 'accounts/home.html' %}
+{% load static %}
+
+{% block title %}Order management{% endblock %}
+
+{% block content %}
+<div class="content-wrapper" style="padding-top: 2.0rem;">
+
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Order Management</h5>
+                <form method="post" action="{% url 'update_order_status' order.id %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Update Order Status</label>
+                        {{ form.as_p }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Status</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

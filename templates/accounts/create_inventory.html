@@ -1,0 +1,34 @@
+{% extends 'accounts/home.html' %}
+
+{% block title %}FarmFresh-Inventory_Add{% endblock %}
+
+{% load crispy_forms_tags %} 
+{% load static %}
+
+{% block content %}
+
+<div class="content-wrapper">
+   <div class="container mt-5">
+    <div class="content-section mb-5">
+        {{ form.media }} 
+        <form method="POST" enctype="multipart/form-data">
+            <fieldset>
+                <legend class="border-bottom pb-2 mb-4 text-center" style="padding-top: 2.0rem;">Inventory Add Form</legend>
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form|crispy }}
+                </div>
+                <div class="form-group pt-4">
+                  <button class="btn btn-outline-success" type="submit">Submit</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+   </div>
+</div>
+
+<br>
+<br>
+
+{% endblock %}
+

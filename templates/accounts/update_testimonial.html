@@ -1,0 +1,30 @@
+{% extends 'accounts/home.html' %}
+{% load static %}
+
+{% block title %}FarmFresh-Testimonial_Update{% endblock %}
+
+{% load crispy_forms_tags %} 
+
+{% block content %}
+<div class="content-wrapper">
+   <div class="container mt-5">
+    <div class="content-section">
+        <form method="POST" enctype="multipart/form-data">
+            <fieldset>
+                <legend class="border-bottom pb-2 mb-4 text-center" style="padding-top: 2.0rem;">Testimonial Update Form</legend>
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form|crispy }}
+                </div>
+                <div class="form-group pt-4">
+                    <button class="btn btn-outline-success" type="submit">Update</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+   </div>
+</div>
+<br>
+<br>
+
+{% endblock %}
