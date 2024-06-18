@@ -38,7 +38,7 @@ SECRET_KEY = 'django-insecure-!ep!c0a=y@*l)l0#1z2@a#&==bj!!j&lya+sud7t&cm!3mkmj2
 # DEBUG = False
 DEBUG = False
 
-ALLOWED_HOSTS = ['*', 'https://inventory-system-7cf2.onrender.com']
+ALLOWED_HOSTS = ['https://inventory-system-vukk.onrender.com']
 
 
 # Application definition
