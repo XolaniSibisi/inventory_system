@@ -41,6 +41,7 @@ executing==2.0.1
 Flask==3.0.2
 fontawesomefree==6.5.1
 fonttools==4.49.0
+GDAL @ file:///C:/Users/JBSLAB6/Documents/Hackathon/inventory_system/GDAL-3.8.4-cp311-cp311-win_amd64.whl#sha256=13115dae539ab85b7b4b5bf8b7eb13abf2026d95313cec0837bff034a8c25c58
 geographiclib==2.0
 geopy==2.4.1
 googlesearch-python==1.2.3
@@ -101,6 +102,7 @@ python-ipware==2.0.2
 python-Levenshtein==0.25.0
 python3-openid==3.2.0
 pytz==2024.1
+pywin32==306
 PyYAML==6.0.1
 pyzmq==25.1.2
 qrcode==7.4.2
