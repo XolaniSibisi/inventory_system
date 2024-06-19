@@ -1,0 +1,173 @@
+body {
+    /* overflow: hidden; */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    opacity: 0.99;
+}
+
+.dark-image {
+    /* Apply a dark filter to the image */
+    filter: brightness(0.5);
+}
+
+.custom-border {
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+}
+
+.custom-text-size {
+    font-size: 18px;
+}
+
+.content-wrapper {
+    flex: 1;
+}
+
+.carousel-item {
+    height: 80vh;
+    min-height: 300px;
+    background: no-repeat scroll center scroll;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+.carousel-item::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #000;
+    opacity: 0.7;
+}
+
+.carousel-caption {
+    bottom: 180px;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.carousel-caption h5 {
+    font-size: 90px;
+    font-weight: 600;
+}
+
+.slider-btn {
+    margin-top: 30px;
+}
+
+.slider-btn .btn {
+    background-color: rgb(173, 207, 129);
+    color: rgb(0, 0, 0);
+    border-radius: 0.5;
+    padding: 1.0rem 1.5rem;
+    font-size: 1.5rem;
+}
+
+.btn a {
+    text-decoration: none;
+}
+
+.custom-search-btn {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    border-radius: 1;
+    margin-left: 10px;
+}
+
+.custom-search-btn:hover {
+    background-color: white;
+    color: dark;
+}
+
+.custom-logout-btn {
+    background-color: transparent;
+    color: white;
+    border: 2px solid rgb(66, 64, 64);
+    border-radius: 1;
+    margin-left: 10px;
+}
+
+.custom-logout-btn:hover {
+    text-decoration: underline;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animated-text {
+    animation: fadeInUp 1.5s ease-out;
+}
+
+.custom-badge {
+    height: 20px;
+    /* Adjust the height as needed */
+    width: 20px;
+    /* Make sure width and height are equal for a perfect circle */
+}
+
+.custom-btn {
+    font-size: 20px;
+    /* Adjust the font size as needed */
+    margin-right: 10px;
+    /* Optional: Add some right margin for better spacing */
+}
+
+.image-align {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    width: 200px;
+}
+
+.ul_li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* Optional: Adjust the alignment of items within the row */
+}
+
+.ul_li li {
+    margin-right: 10px; /* Optional: Adjust the spacing between the images */
+}
+
+.box {
+    display: flex;
+    /* justify-content: space-between; */
+    background-color: #6c6868; 
+    border: 2px solid #5a5858; 
+    padding: 20px;
+    /* transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; */
+}
+
+/* .box.active {
+    opacity: 1; 
+    transform: translateY(0);
+} */
+
+.col-md-6 {
+    width: 48%;
+}
+
+/* .custom-column {
+    margin-bottom: 20px; 
+    background-color: #5c5959;
+    border: 2px solid #5a5858; 
+} */
