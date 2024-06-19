@@ -38,7 +38,7 @@ logging.basicConfig(level=logging.INFO)
 
 LOW_QUANTITY = getattr(settings, 'LOW_QUANTITY', 5)
 
-def home(request):
+def index(request):
     logged_user = request.user
     request.session['old_username'] = logged_user.username
 
@@ -58,7 +58,7 @@ def home(request):
         'latest_testimonials': latest_testimonials,
     }
 
-    return render(request, 'accounts/home.html', context)
+    return render(request, 'accounts/index.html', context)
 
 
 @login_required

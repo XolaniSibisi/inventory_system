@@ -30,7 +30,7 @@ class RegisterView(View):
     template_name = 'users/register.html'
 
     def dispatch(self, request, *args, **kwargs):
-        # will redirect to the home page if a user tries to access the register page while logged in
+        # will redirect to the index page if a user tries to access the register page while logged in
         if request.user.is_authenticated:
             return redirect(to='')
 
@@ -114,7 +114,7 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
                       "if an account exists with the email you entered. You should receive them shortly." \
                       " If you don't receive an email, " \
                       "please make sure you've entered the address you registered with, and check your spam folder."
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('index')
 
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):

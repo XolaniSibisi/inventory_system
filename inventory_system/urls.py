@@ -30,7 +30,7 @@ urlpatterns = [
     path('user/', include('user.urls')),
     path('orders/', include('orders.urls')),
     
-    path('', views.home, name='home'),
+    path('', views.index, name='index'),
 
     path('login', CustomLoginView.as_view(redirect_authenticated_user=True, template_name='users/login.html',
                                            authentication_form=LoginForm), name='login'),

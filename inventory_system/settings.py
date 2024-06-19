@@ -44,13 +44,13 @@ ALLOWED_HOSTS = ['inventory-system-vukk.onrender.com']
 # Application definition
 
 INSTALLED_APPS = [
+    'inventory_system.apps.InventorySystemConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'inventory_system',
     'accounts',
     'user',
     'orders',
@@ -176,4 +176,4 @@ LOW_QUANTITY = 5
 
 # login redirect path settings
 LOGIN_REDIRECT_URL = '/accounts'
-LOGIN_URL = 'home'
+LOGIN_URL = 'index'

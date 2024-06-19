@@ -3,7 +3,7 @@ from . import views
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-    path('', login_required(views.home), name='home'),
+    path('', login_required(views.index), name='index'),
     path('catalog/', login_required(views.catalog_list), name='catalog_list'),
     path('catalog_create/', views.catalog_create, name='catalog_create'),
     path('upload_catalog/', views.upload_catalog, name='upload_catalog'),
