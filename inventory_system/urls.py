@@ -52,6 +52,8 @@ urlpatterns = [
     # re_path(r'^oauth/', include('social_django.urls', namespace='social')),
 
 ]
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'user.views.custom_404'
 
