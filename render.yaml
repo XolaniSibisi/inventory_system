@@ -10,7 +10,7 @@ services:
     name: inventory_system
     runtime: python
     buildCommand: "./build.sh"
-    startCommand: "gunicorn -b 0.0.0.0:5432 --worker-class gevent --timeout 600 inventory_system.asgi:application -k uvicorn.workers.UvicornWorker"
+    startCommand: "gunicorn inventory_system.wsgi:application"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
